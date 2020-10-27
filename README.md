@@ -2,7 +2,7 @@
 
 ## Problem Statement: To provide a post match summary of cricket matches which were held between multiple teams using REST APIs.​
 
-## Pre-requisites on your machine to run the project:
+## Pre-requisites to be installed on your machine to run the project:
 
 1. Python 3.7 
 2. Node JS 
