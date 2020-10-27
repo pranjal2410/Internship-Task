@@ -1,68 +1,79 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import {useHistory, useLocation} from "react-router";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(2),
     },
     table: {
-        minWidth: 650,
+        margin: 'auto',
+        maxWidth: '75%',
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(id, match, winner, margin) {
+    return { id, match, winner, margin };
 }
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 export default function AllMatches () {
     const classes = useStyles();
+    const [rows, setRows] = useState([]);
+    const location = useLocation();
+    const history = useHistory();
 
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            },
+            url: 'http://localhost:5000/api/get-all-matches/'
+        }).then((response) => {
+            let rows_local = []
+            // eslint-disable-next-line array-callback-return
+            response.data.map((row) => {
+                rows_local.push(createData(row.id, row.home_team + ' vs ' + row.away_team, row.winner, row.winning_margin))
+            })
+            setRows(rows_local)
+        })
+    }, [location])
     return (
         <div className={classes.root}>
             <h1>Check out all the matches played!</h1>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table" stickyHeader>
+            <div className={classes.table}>
+                <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell align="right">Calories</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                            <TableCell>Match</TableCell>
+                            <TableCell align="center">Winner</TableCell>
+                            <TableCell align="right">Winning Margin</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    <Link onClick={() => history.push('/match-record')} style={{ textDecoration: 'none', color: 'white'}}>
+                                        {row.match}
+                                    </Link>
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
+                                <TableCell align="center">{row.winner}</TableCell>
+                                <TableCell align="right">{row.margin}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </div>
         </div>
     )
 }

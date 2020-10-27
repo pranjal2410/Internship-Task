@@ -9,6 +9,7 @@ class Team(db.Model):
     total_matches_played = db.Column(db.Integer, nullable=False)
     total_matches_won = db.Column(db.Integer, nullable=False)
     points = db.Column(db.Integer, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tournament.id'), nullable=False)
 
     def __repr__(self):
         return f"Team('{self.team_name}')"
@@ -32,3 +33,12 @@ class Match(db.Model):
 
     def __repr__(self):
         return f"Match('{self.home_team} vs {self.away_team}')"
+
+
+class Tournament(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tour_name = db.Column(db.String(20), nullable=False)
+    team = db.relationship('Team', backref='tournament', lazy=True)
+
+    def __repr__(self):
+        return f'Tournament({self.tour_name})'

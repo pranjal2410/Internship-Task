@@ -2,17 +2,16 @@ import React, {useEffect, useState} from "react";
 import { Tabs, Tab } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
 import AppBar from "@material-ui/core/AppBar";
-import {makeStyles} from "@material-ui/core/styles";
+// import {makeStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary
-    }
-}))
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         backgroundColor: theme.palette.background.paper,
+//         color: theme.palette.text.primary
+//     }
+// }))
 
 export default function NavTabs() {
-    const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
     const [tab, setTab] = useState(0);
@@ -33,7 +32,7 @@ export default function NavTabs() {
                 setTab(3);
                 break;
             default:
-                setTab(0);
+                setTab(null);
         }
     }, [location]);
 
