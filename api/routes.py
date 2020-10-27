@@ -1,5 +1,4 @@
-from api import app, db, rest_api
-from flask import request, jsonify
+from api import db, rest_api
 from api.models import Team, Match, Tournament
 from flask_restful import Resource, reqparse
 
@@ -168,13 +167,58 @@ class AddTeam(Resource):
                     total_matches_played=data.get('total_matches_played'),
                     total_matches_won=data.get('total_matches_won'),
                     points=data.get('points'),
-                    tour_id=Tournament.query.filter_by(tour_name=data.get('tour_name').first().id))
+                    tour_id=Tournament.query.filter_by(tour_name=data.get('tour_name')).first().id)
         db.session.add(team)
         db.session.commit()
 
         return {'message': 'Team data successfully added!'}, 200
 
 
+class GetTeam(Resource):
+    def get(self, team_id):
+        team = Team.query.filter_by(id=team_id).first()
+        team_data = {
+            'team_name': team.team_name,
+            'coach_name': team.coach_name,
+            'captain_name': team.captain_name,
+            'total_matches_played': team.total_matches_played,
+            'total_matches_won': team.total_matches_won,
+            'points': team.points,
+            'tour_name': Tournament.query.filter_by(id=team.tour_id).first().tour_name
+        }
+
+        return team_data, 200
+
+
+class GetAllData(Resource):
+    def get(self):
+        team_list = []
+        for team in Team.query.all():
+            team_data = {
+                'id': team.id,
+                'team_name': team.team_name,
+                'coach_name': team.coach_name,
+                'captain_name': team.captain_name,
+                'total_matches_played': team.total_matches_played,
+                'total_matches_won': team.total_matches_won,
+                'points': team.points,
+                'tour_name': Tournament.query.filter_by(id=team.tour_id).first().tour_name
+            }
+            team_list.append(team_data)
+
+        tour_list = []
+        for tour in Tournament.query.all():
+            tour_data = {
+                'tour_name': tour.tour_name,
+            }
+
+            tour_list.append(tour_data)
+
+        return {'tournaments': tour_list, 'teams': team_list}, 200
+
+
 rest_api.add_resource(AllMatches, '/api/get-all-matches/')
 rest_api.add_resource(SingleMatch, '/api/one-match/', '/api/one-match/<int:match_id>/')
 rest_api.add_resource(AddTeam, '/api/add-team/')
+rest_api.add_resource(GetTeam, '/api/get-team/<int:team_id>/')
+rest_api.add_resource(GetAllData, '/api/get-data/')

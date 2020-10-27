@@ -59,7 +59,7 @@ export default function NavTabs() {
 
     return (
         <AppBar position="sticky" color="default">
-            <Tabs value={tab} onChange={handleTab} textColor="white" indicatorColor="primary">
+            <Tabs value={tab} onChange={handleTab} textColor="inherit" indicatorColor="primary">
                 <Tab label="All Matches" />
                 <Tab label="All Teams" />
                 <Tab label="Add Match" />
