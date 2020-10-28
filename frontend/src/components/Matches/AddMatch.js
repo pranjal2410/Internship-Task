@@ -10,8 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,8 +33,6 @@ function createTeams (id, team_name, tour_name) {
 export default function AddMatch () {
     const classes = useStyles();
     const location = useLocation();
-    const [green, setGreen] = React.useState(false);
-    const [red, setRed] = React.useState(false);
     let i=0;
     const [rows, setRows] = useState([]);
     const [data, setData] = useState({
@@ -99,27 +95,18 @@ export default function AddMatch () {
         axios({
             method: 'POST',
             headers: {
+                "Access-Control-Allow-Origin": "*",
                 'content-type': 'application/json',
             },
             data: data,
-            url: 'http://localhost:5000/api/add-team/'
+            url: 'http://localhost:5000/api/one-match/'
         }).then(response => {
-            setGreen(true)
             return (
-                <Snackbar open={green} autoHideDuration={6000} onClose={() => setGreen(false)}>
-                    <Alert onClose={() => setGreen(false)} severity="success">
-                        {response.message}
-                    </Alert>
-                </Snackbar>
+                    window.alert(response.data.message)
             )
         }).catch(error => {
-            setRed(true)
             return (
-                <Snackbar open={red} autoHideDuration={6000} onClose={() => setRed(false)}>
-                    <Alert onClose={() => setRed(false)} severity="error">
-                        {error.message}
-                    </Alert>
-                </Snackbar>
+                window.alert(error.data.message)
             )
         })
     }

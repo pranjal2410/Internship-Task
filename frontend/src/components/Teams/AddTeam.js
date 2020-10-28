@@ -10,12 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AddTeam () {
     const classes = useStyles();
     const location = useLocation();
-    const [green, setGreen] = React.useState(false);
-    const [red, setRed] = React.useState(false);
     let i=0;
     const [data, setData] = useState({
         team_name: null,
@@ -87,22 +79,12 @@ export default function AddTeam () {
             data: data,
             url: 'http://localhost:5000/api/add-team/'
         }).then(response => {
-            setGreen(true)
             return (
-                <Snackbar open={green} autoHideDuration={6000} onClose={() => setGreen(false)}>
-                    <Alert onClose={() => setGreen(false)} severity="success">
-                        {response.message}
-                    </Alert>
-                </Snackbar>
+                    window.alert(response.data.message)
             )
         }).catch(error => {
-            setRed(true)
             return (
-                <Snackbar open={red} autoHideDuration={6000} onClose={() => setRed(false)}>
-                    <Alert onClose={() => setRed(false)} severity="error">
-                        {error.message}
-                    </Alert>
-                </Snackbar>
+                window.alert(error.data.message)
             )
         })
     }

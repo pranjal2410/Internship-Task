@@ -20,7 +20,7 @@
 
 * ### Running the Flask server:
 
-1. Create a virtual environment using **python -m venv venv*
+1. Create a virtual environment using **python -m venv venv**
 2. Activate venv using **venv\Scripts\activate**
 3. Install the required python packages using **pip install -r requirements.txt**
 4. Navigate to the Internship-Task directory and run the command:
@@ -46,7 +46,7 @@
 
 | Table Name                     | Description                          |
 | :-----------------------------:  | :--------------------------------    |
-|Team  |This table contains all the required information like the team's name, coach's name, captain's name, etc.|
+|Team  |This table contains all the required information of the team like team's name, coach's name, captain's name, etc.|
 |Match  |This table contains complete information of a match which is related to the Team table via ForeignKey relationship|
 |Tournament  |This table allows us to create multiple teams which play in various tournaments which is linked to the table via ForeignKey relationship|
 
