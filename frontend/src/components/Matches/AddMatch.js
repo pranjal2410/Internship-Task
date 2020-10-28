@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: 'auto',
     }
-}))
+}));
 
 function createTeams (id, team_name, tour_name) {
     return { id, team_name, tour_name }
@@ -68,30 +68,30 @@ export default function AddMatch () {
             // eslint-disable-next-line array-callback-return
             response.data.teams.map(row => {
                 rows_local.push(createTeams(row.id, row.team_name, row.tour_name))
-            })
-            setRows(rows_local)
+            });
+            setRows(rows_local);
             // eslint-disable-next-line array-callback-return
             response.data.tournaments.map(row => {
                 tours_local.push(row.tour_name)
-            })
+            });
             setTours(tours_local);
         })
-    }, [location])
+    }, [location]);
 
     const handleChange = (e) => {
-        console.log(tours, rows)
+        console.log(tours, rows);
         setData({
             ...data,
             [e.target.name]: e.target.value
         })
-    }
+    };
 
     const submitHandler = (e) => {
         let won_by = data.criteria==="Super Over"?data.criteria:data.margin + ' ' + data.criteria;
         setData({
             ...data,
             won_by: won_by,
-        })
+        });
         axios({
             method: 'POST',
             headers: {
@@ -109,7 +109,7 @@ export default function AddMatch () {
                 window.alert(error.message)
             )
         })
-    }
+    };
 
     return (
         <div className={classes.root}>
@@ -302,7 +302,7 @@ export default function AddMatch () {
                                 /></TableCell>
                         </TableRow>
                         <TableRow key={i++}>
-                            <TableCell>Tournament</TableCell>
+                            <TableCell>4's scored by Away Team</TableCell>
                             <TableCell align="right">
                                 <TextField
                                     variant="outlined"

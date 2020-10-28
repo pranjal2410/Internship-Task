@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: 'auto',
     }
-}))
+}));
 
 
 export default function AddTeam () {
@@ -55,19 +55,17 @@ export default function AddTeam () {
             // eslint-disable-next-line array-callback-return
             response.data.tournaments.map(row => {
                 tours_local.push(row.tour_name)
-            })
+            });
             setTours(tours_local);
-            console.log(tours_local)
         })
-    }, [location])
+    }, [location]);
 
     const handleChange = (e) => {
         setData({
             ...data,
             [e.target.name]: e.target.value
-        })
-        console.log(tours)
-    }
+        });
+    };
 
     const submitHandler = (e) => {
         axios({
@@ -84,7 +82,7 @@ export default function AddTeam () {
             )
         }).catch(error => {
             return (
-                window.alert(error.data.message)
+                window.alert(error.message)
             )
         })
     }
