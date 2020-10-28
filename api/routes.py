@@ -116,7 +116,7 @@ class AddMatch(Resource):
         check_match = next(filter(lambda match: match.home_team == data.get('home_team') and
                                                 match.away_team == data.get('away_team'), Match.query.all()), None)
         if check_match is not None:
-            return {'message': 'Match record already exists!'}, 404
+            return {'message': 'Match record already exists!'}, 400
         match = Match(home_team=data.get('home_team'),
                       away_team=data.get('away_team'),
                       winner=data.get('winner'),
@@ -168,7 +168,7 @@ class AddTeam(Resource):
         data = parser.parse_args()
         check_team = next(filter(lambda team: team.team_name == data.get('team_name'), Team.query.all()), None)
         if check_team is not None:
-            return {'message': 'Team record already exists!'}, 404
+            return {'message': 'Team record already exists!'}, 400
         team = Team(team_name=data.get('team_name'),
                     coach_name=data.get('coach_name'),
                     captain_name=data.get('captain_name'),

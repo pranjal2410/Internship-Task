@@ -52,7 +52,7 @@ export default function MatchRecord () {
                     <TableHead>
                         <TableRow>
                             <TableCell>Parameters</TableCell>
-                            <TableCell align="right">Recorded Data</TableCell>
+                            <TableCell>Recorded Data</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

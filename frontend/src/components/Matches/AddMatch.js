@@ -106,7 +106,7 @@ export default function AddMatch () {
             )
         }).catch(error => {
             return (
-                window.alert(error.data.message)
+                window.alert(error.message)
             )
         })
     }

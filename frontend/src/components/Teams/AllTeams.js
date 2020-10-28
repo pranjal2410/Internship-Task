@@ -50,18 +50,9 @@ export default function AllTeams () {
         })
     }, [location])
 
-    const navToTeam = (id) => {
-        axios({
-            method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            },
-            url: `http://localhost:5000/api/get-team/${id}/`
-        }).then(response => {
-            setTeamData(response.data)
-            history.push('/team-record')
-        })
+    const navToTeam = (i) => {
+        setTeamData(rows[i])
+        history.push('/team-record')
     }
 
     return (
@@ -77,10 +68,10 @@ export default function AllTeams () {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {rows.map((row, i) => (
                             <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
-                                    <Link onClick={() => navToTeam(row.id)} style={{ color: 'white' }}>
+                                    <Link onClick={() => navToTeam(i)} style={{ color: 'white' }}>
                                         {row.team_name}
                                     </Link>
                                 </TableCell>
