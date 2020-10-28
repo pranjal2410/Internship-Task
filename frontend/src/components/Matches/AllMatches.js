@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
 import {useHistory, useLocation} from "react-router";
 import Link from "@material-ui/core/Link";
+import {MatchContext} from "../../context/MatchContext";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,6 +31,7 @@ export default function AllMatches () {
     const [rows, setRows] = useState([]);
     const location = useLocation();
     const history = useHistory();
+    const {setData} = useContext(MatchContext);
 
     useEffect(() => {
         axios({
@@ -45,8 +47,24 @@ export default function AllMatches () {
                 rows_local.push(createData(row.id, row.home_team + ' vs ' + row.away_team, row.winner, row.winning_margin))
             })
             setRows(rows_local)
+            console.log(rows_local)
         })
     }, [location])
+
+    const navToRecord = (e, i) => {
+        console.log(rows[i])
+        axios({
+            method: 'GET',
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            },
+            url: `http://localhost:5000/api/one-match/${rows[i].id}`
+        }).then((response) => {
+            setData(response.data)
+            history.push('/match-record')
+        })
+    }
     return (
         <div className={classes.root}>
             <h1>Check out all the matches played!</h1>
@@ -60,10 +78,10 @@ export default function AllMatches () {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {rows.map((row, i) => (
                             <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
-                                    <Link onClick={() => history.push('/match-record')} style={{ textDecoration: 'none', color: 'white'}}>
+                                    <Link onClick={() => navToRecord(i)} style={{ textDecoration: 'none', color: 'white'}}>
                                         {row.match}
                                     </Link>
                                 </TableCell>

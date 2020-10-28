@@ -7,6 +7,8 @@ import {Route, Switch} from "react-router";
 import AllMatches from "./components/Matches/AllMatches";
 import AddMatch from "./components/Matches/AddMatch";
 import AddTeam from "./components/Teams/AddTeam";
+import AllTeams from "./components/Teams/AllTeams";
+import MatchContextProvider from "./context/MatchContext";
 
 const theme = createMuiTheme({
   palette: {
@@ -18,12 +20,15 @@ function App() {
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <NavTabs/>
-        <Switch>
-            <Route exact path="/" component={AllMatches}/>
-            <Route exact path="/add-match" component={AddMatch}/>
-            <Route exact path="/add-team" component={AddTeam}/>
-        </Switch>
+        <MatchContextProvider>
+            <NavTabs/>
+            <Switch>
+                <Route exact path="/" component={AllMatches}/>
+                <Route exact path="/all-teams" component={AllTeams}/>
+                <Route exact path="/add-match" component={AddMatch}/>
+                <Route exact path="/add-team" component={AddTeam}/>
+            </Switch>
+        </MatchContextProvider>
       </ThemeProvider>
   );
 }
