@@ -99,7 +99,7 @@ export default function AddMatch () {
                 'content-type': 'application/json',
             },
             data: data,
-            url: 'http://localhost:5000/api/one-match/'
+            url: 'http://localhost:5000/api/add-match/'
         }).then(response => {
             return (
                     window.alert(response.data.message)

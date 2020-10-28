@@ -10,6 +10,9 @@ import AddTeam from "./components/Teams/AddTeam";
 import AllTeams from "./components/Teams/AllTeams";
 import MatchContextProvider from "./context/MatchContext";
 import blue from "@material-ui/core/colors/blue";
+import MatchRecord from "./components/Matches/MatchRecord";
+import TeamContextProvider from "./context/TeamContext";
+import TeamRecord from "./components/Teams/TeamRecord";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,13 +28,17 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <MatchContextProvider>
-            <NavTabs/>
-            <Switch>
-                <Route exact path="/" component={AllMatches}/>
-                <Route exact path="/all-teams" component={AllTeams}/>
-                <Route exact path="/add-match" component={AddMatch}/>
-                <Route exact path="/add-team" component={AddTeam}/>
-            </Switch>
+            <TeamContextProvider>
+                <NavTabs/>
+                <Switch>
+                    <Route exact path="/" component={AllMatches}/>
+                    <Route exact path="/match-record" component={MatchRecord}/>
+                    <Route exact path="/all-teams" component={AllTeams}/>
+                    <Route exact path="/team-record" component={TeamRecord}/>
+                    <Route exact path="/add-match" component={AddMatch}/>
+                    <Route exact path="/add-team" component={AddTeam}/>
+                </Switch>
+            </TeamContextProvider>
         </MatchContextProvider>
       </ThemeProvider>
   );

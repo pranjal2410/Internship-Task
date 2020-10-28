@@ -24,6 +24,11 @@ class SingleMatch(Resource):
         match = Match.query.filter_by(id=match_id).first()
         match_data = {
             'winner': match.winner,
+            'home_team_id': Team.query.filter_by(team_name=match.home_team).first().id,
+            'away_team_id': Team.query.filter_by(team_name=match.away_team).first().id,
+            'home_team': match.home_team,
+            'away_team': match.away_team,
+            'match': match.home_team + ' vs ' + match.away_team,
             'score_of_home_team': match.runs_home,
             'wickets_of_home_team': match.wickets_home,
             'score_of_away_team': match.runs_away,
@@ -35,7 +40,10 @@ class SingleMatch(Resource):
             'man_of_the_match': match.motm,
         }
 
-        return match_data
+        return match_data, 200
+
+
+class AddMatch(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
@@ -176,16 +184,7 @@ class AddTeam(Resource):
 
 class GetTeam(Resource):
     def get(self, team_id):
-        team = Team.query.filter_by(id=team_id).first()
-        team_data = {
-            'team_name': team.team_name,
-            'coach_name': team.coach_name,
-            'captain_name': team.captain_name,
-            'total_matches_played': team.total_matches_played,
-            'total_matches_won': team.total_matches_won,
-            'points': team.points,
-            'tour_name': Tournament.query.filter_by(id=team.tour_id).first().tour_name
-        }
+        team_data = getTeamData(team_id)
 
         return team_data, 200
 
@@ -194,16 +193,7 @@ class GetAllData(Resource):
     def get(self):
         team_list = []
         for team in Team.query.all():
-            team_data = {
-                'id': team.id,
-                'team_name': team.team_name,
-                'coach_name': team.coach_name,
-                'captain_name': team.captain_name,
-                'total_matches_played': team.total_matches_played,
-                'total_matches_won': team.total_matches_won,
-                'points': team.points,
-                'tour_name': Tournament.query.filter_by(id=team.tour_id).first().tour_name
-            }
+            team_data = getTeamData(team.id)
             team_list.append(team_data)
 
         tour_list = []
@@ -218,7 +208,23 @@ class GetAllData(Resource):
 
 
 rest_api.add_resource(AllMatches, '/api/get-all-matches/')
-rest_api.add_resource(SingleMatch, '/api/one-match/', '/api/one-match/<int:match_id>/')
+rest_api.add_resource(SingleMatch, '/api/one-match/<int:match_id>/')
+rest_api.add_resource(AddMatch, '/api/add-match/')
 rest_api.add_resource(AddTeam, '/api/add-team/')
 rest_api.add_resource(GetTeam, '/api/get-team/<int:team_id>/')
 rest_api.add_resource(GetAllData, '/api/get-data/')
+
+
+def getTeamData(team_id):
+    team = Team.query.filter_by(id=team_id).first()
+    team_data = {
+        'team_name': team.team_name,
+        'coach_name': team.coach_name,
+        'captain_name': team.captain_name,
+        'total_matches_played': team.total_matches_played,
+        'total_matches_won': team.total_matches_won,
+        'points': team.points,
+        'tour_name': Tournament.query.filter_by(id=team.tour_id).first().tour_name
+    }
+    
+    return team_data
