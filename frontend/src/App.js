@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import {createMuiTheme, ThemeProvider} from "@material-ui/core";
+import {createMuiTheme, ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavTabs from "./components/NavTabs/NavTabs";
 import {Route, Switch} from "react-router";
@@ -9,10 +9,14 @@ import AddMatch from "./components/Matches/AddMatch";
 import AddTeam from "./components/Teams/AddTeam";
 import AllTeams from "./components/Teams/AllTeams";
 import MatchContextProvider from "./context/MatchContext";
+import blue from "@material-ui/core/colors/blue";
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'dark',
+      primary: {
+        main: blue[200]
+      }
   }
 });
 

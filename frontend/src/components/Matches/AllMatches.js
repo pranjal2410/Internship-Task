@@ -47,19 +47,19 @@ export default function AllMatches () {
                 rows_local.push(createData(row.id, row.home_team + ' vs ' + row.away_team, row.winner, row.winning_margin))
             })
             setRows(rows_local)
-            console.log(rows_local)
         })
     }, [location])
 
-    const navToRecord = (e, i) => {
-        console.log(rows[i])
+    const navToRecord = (i) => {
+        const row = rows[i];
+        console.log(rows, i)
         axios({
             method: 'GET',
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
             },
-            url: `http://localhost:5000/api/one-match/${rows[i].id}`
+            url: `http://localhost:5000/api/one-match/${row.id}`
         }).then((response) => {
             setData(response.data)
             history.push('/match-record')
