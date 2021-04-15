@@ -59,4 +59,4 @@ jobs:
         with:
           app-name: 'internship-task'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_2ebada19eb7a4896a3ed15325a494e02 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_23b6b812c62e4dd78657abb9960ce30b }}
