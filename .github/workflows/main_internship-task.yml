@@ -60,3 +60,5 @@ jobs:
           app-name: 'internship-task'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_23b6b812c62e4dd78657abb9960ce30b }}
+      - name: 'Run Application'
+        run: python run.py
